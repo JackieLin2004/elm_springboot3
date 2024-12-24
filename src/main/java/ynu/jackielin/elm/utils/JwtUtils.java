@@ -29,7 +29,6 @@ public class JwtUtils {
     @Value("${spring.security.jwt.expire}")
     int expire;
 
-    // Redis 模板，用于操作 JWT 黑名单
     @Resource
     StringRedisTemplate template;
 
@@ -110,7 +109,7 @@ public class JwtUtils {
      * @param username 用户名，作为 Token 的一个自定义声明
      * @return 生成的 JWT 字符串
      */
-    public String createJwt(UserDetails userDetails, int id, String username) {
+    public String createJwt(UserDetails userDetails, long id, String username) {
         Algorithm algorithm = Algorithm.HMAC256(key);
         Date expire = this.expireTime();
         return JWT.create()

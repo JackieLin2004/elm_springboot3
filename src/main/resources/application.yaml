@@ -28,3 +28,7 @@ springdoc:
     path: /doc/ui
   api-docs:
     path: /doc/json
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
