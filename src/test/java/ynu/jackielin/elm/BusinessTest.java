@@ -14,4 +14,9 @@ public class BusinessTest {
     void test1(){
         businessService.getAllCategories().forEach(System.out::println);
     }
+
+    @Test
+    void test2(){
+        businessService.getRecommendBusiness().forEach(System.out::println);
+    }
 }

@@ -4,6 +4,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ynu.jackielin.elm.dto.response.BusinessVO;
 import ynu.jackielin.elm.service.BusinessService;
 
 import java.util.HashMap;
@@ -28,6 +29,11 @@ public class BusinessController {
             }
         }
         return result;
+    }
+
+    @GetMapping("/get-recommend-business")
+    public List<BusinessVO> getRecommendBusiness() {
+        return businessService.getRecommendBusiness();
     }
 
     /**
