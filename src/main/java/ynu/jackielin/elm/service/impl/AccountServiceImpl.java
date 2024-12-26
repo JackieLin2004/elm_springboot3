@@ -103,7 +103,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         if (this.existsAccountByUsername(username)) return "此用户名已被其他人注册，请更换一个新的用户名";
         String password = encoder.encode(ro.getPassword());
         Account account = new Account(null, username, password, 1, email,
-                "aaa", 1000.00, 1);
+                "/img/userImg/yhtx01.png", 1000.00, 1);
         if (this.save(account)) {
             if (accountRoleService.registerAccountRole(account.getUserId())) {
                 stringRedisTemplate.delete(key);
