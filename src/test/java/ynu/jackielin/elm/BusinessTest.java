@@ -25,4 +25,9 @@ public class BusinessTest {
         businessService.listBusinessByOrderTypeId(0).forEach(System.out::println);
         businessService.listBusinessByOrderTypeId(1).forEach(System.out::println);
     }
+
+    @Test
+    void test4(){
+        System.out.println(businessService.listBusinessByBusinessId(1L));
+    }
 }

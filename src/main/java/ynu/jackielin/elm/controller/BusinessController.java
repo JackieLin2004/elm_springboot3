@@ -42,6 +42,11 @@ public class BusinessController {
         return businessService.listBusinessByOrderTypeId(orderTypeId);
     }
 
+    @GetMapping("/get-business-by-businessId")
+    public BusinessVO listBusinessByBusinessId(@RequestParam Long businessId) {
+        return businessService.listBusinessByBusinessId(businessId);
+    }
+
     /**
      * 获取点餐分流ID和类型名称的映射
      *

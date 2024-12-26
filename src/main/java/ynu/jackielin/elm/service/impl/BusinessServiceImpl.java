@@ -64,4 +64,19 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
             return businesses.stream().map(Proxy::business2VO).collect(Collectors.toList());
         }
     }
+
+    /**
+     * 根据类型ID查询商家列表
+     *
+     * @param businessId 商家ID
+     * @return 商家BusinessVO对象
+     */
+    @Override
+    public BusinessVO listBusinessByBusinessId(Long businessId) {
+        Business business = baseMapper.selectById(businessId);
+        if (business == null) {
+            return null;
+        }
+        return Proxy.business2VO(business);
+    }
 }
