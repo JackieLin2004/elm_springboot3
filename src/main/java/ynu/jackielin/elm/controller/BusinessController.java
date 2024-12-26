@@ -3,6 +3,7 @@ package ynu.jackielin.elm.controller;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ynu.jackielin.elm.dto.response.BusinessVO;
 import ynu.jackielin.elm.service.BusinessService;
@@ -34,6 +35,11 @@ public class BusinessController {
     @GetMapping("/get-recommend-business")
     public List<BusinessVO> getRecommendBusiness() {
         return businessService.getRecommendBusiness();
+    }
+
+    @GetMapping("/get-business-by-orderTypeId")
+    public List<BusinessVO> listBusinessByOrderTypeId(@RequestParam Integer orderTypeId) {
+        return businessService.listBusinessByOrderTypeId(orderTypeId);
     }
 
     /**

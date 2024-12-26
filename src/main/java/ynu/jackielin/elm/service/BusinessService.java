@@ -11,4 +11,6 @@ public interface BusinessService extends IService<Business> {
     List<Integer> getAllCategories();
 
     List<BusinessVO> getRecommendBusiness();
+
+    List<BusinessVO> listBusinessByOrderTypeId(Integer orderTypeId);
 }

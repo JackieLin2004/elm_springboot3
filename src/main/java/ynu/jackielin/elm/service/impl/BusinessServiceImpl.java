@@ -7,9 +7,11 @@ import ynu.jackielin.elm.dto.response.BusinessVO;
 import ynu.jackielin.elm.entity.po.Business;
 import ynu.jackielin.elm.mapper.BusinessMapper;
 import ynu.jackielin.elm.service.BusinessService;
+import ynu.jackielin.elm.utils.Proxy;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Service
 public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> implements BusinessService {
@@ -39,16 +41,27 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
         queryWrapper.orderByAsc("businessId")
                 .last("LIMIT 6");
         List<Business> businesses = baseMapper.selectList(queryWrapper);
+        return businesses.stream()
+                .map(Proxy::business2VO)
+                .collect(Collectors.toList());
+    }
 
-        return businesses.stream().map(business -> {
-            BusinessVO vo = new BusinessVO();
-            vo.setBusinessId(business.getBusinessId());
-            vo.setBusinessName(business.getBusinessName());
-            vo.setBusinessExplain(business.getBusinessExplain());
-            vo.setBusinessImg(business.getBusinessImg());
-            vo.setStartPrice(business.getStartPrice());
-            vo.setDeliveryPrice(business.getDeliveryPrice());
-            return vo;
-        }).collect(Collectors.toList());
+    /**
+     * 根据类型ID查询商家列表
+     *
+     * @param orderTypeId 订单类型ID，为0时查询所有商家
+     * @return 商家列表，列表中的元素是BusinessVO对象
+     */
+    @Override
+    public List<BusinessVO> listBusinessByOrderTypeId(Integer orderTypeId) {
+        if (orderTypeId == 0) {
+            List<Business> businesses = baseMapper.selectList(null);
+            return businesses.stream().map(Proxy::business2VO).collect(Collectors.toList());
+        } else {
+            QueryWrapper<Business> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("orderTypeId", orderTypeId);
+            List<Business> businesses = baseMapper.selectList(queryWrapper);
+            return businesses.stream().map(Proxy::business2VO).collect(Collectors.toList());
+        }
     }
 }

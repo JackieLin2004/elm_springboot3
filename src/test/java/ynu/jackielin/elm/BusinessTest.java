@@ -19,4 +19,10 @@ public class BusinessTest {
     void test2(){
         businessService.getRecommendBusiness().forEach(System.out::println);
     }
+
+    @Test
+    void test3(){
+        businessService.listBusinessByOrderTypeId(0).forEach(System.out::println);
+        businessService.listBusinessByOrderTypeId(1).forEach(System.out::println);
+    }
 }
