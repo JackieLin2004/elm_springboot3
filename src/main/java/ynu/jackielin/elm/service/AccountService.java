@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import ynu.jackielin.elm.dto.request.ConfirmResetRO;
 import ynu.jackielin.elm.dto.request.EmailRegisterRO;
 import ynu.jackielin.elm.dto.request.EmailResetRO;
+import ynu.jackielin.elm.dto.response.AccountVO;
 import ynu.jackielin.elm.entity.po.Account;
 
 public interface AccountService extends IService<Account>, UserDetailsService {
@@ -18,4 +19,6 @@ public interface AccountService extends IService<Account>, UserDetailsService {
     String resetConfirm(ConfirmResetRO ro);
 
     String resetEmailAccountPassword(EmailResetRO ro);
+
+    AccountVO getAccountByUserId(Long userId);
 }

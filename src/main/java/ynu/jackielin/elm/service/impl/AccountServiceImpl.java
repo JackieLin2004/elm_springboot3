@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import ynu.jackielin.elm.dto.request.ConfirmResetRO;
 import ynu.jackielin.elm.dto.request.EmailRegisterRO;
 import ynu.jackielin.elm.dto.request.EmailResetRO;
+import ynu.jackielin.elm.dto.response.AccountVO;
 import ynu.jackielin.elm.entity.po.Account;
 import ynu.jackielin.elm.entity.po.Role;
 import ynu.jackielin.elm.mapper.AccountMapper;
@@ -21,6 +22,7 @@ import ynu.jackielin.elm.service.AccountService;
 import ynu.jackielin.elm.service.RoleService;
 import ynu.jackielin.elm.utils.Const;
 import ynu.jackielin.elm.utils.FlowUtils;
+import ynu.jackielin.elm.utils.Proxy;
 
 import java.util.Map;
 import java.util.Random;
@@ -148,6 +150,23 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
             stringRedisTemplate.delete(Const.VERIFY_EMAIL_DATA + email);
         }
         return update ? null : "更新失败，请联系管理员";
+    }
+
+    /**
+     * 根据用户ID获取用户账户信息
+     *
+     * @param userId 用户ID
+     * @return 用户账户信息，如果用户ID为空或用户不存在，则返回null
+     * @throws IllegalArgumentException 如果用户ID为空
+     */
+    @Override
+    public AccountVO getAccountByUserId(Long userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
+        Account account = baseMapper.selectById(userId);
+        if (account == null) return null;
+        return Proxy.account2VO(account);
     }
 
     /**
