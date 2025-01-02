@@ -15,4 +15,6 @@ public interface BusinessService extends IService<Business> {
     List<BusinessVO> listBusinessByOrderTypeId(Integer orderTypeId);
 
     BusinessVO listBusinessByBusinessId(Long businessId);
+
+    Double getDeliveryPriceByBusinessId(Long businessId);
 }

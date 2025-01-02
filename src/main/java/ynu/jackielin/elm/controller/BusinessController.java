@@ -47,6 +47,11 @@ public class BusinessController {
         return businessService.listBusinessByBusinessId(businessId);
     }
 
+    @GetMapping("/get-delivery-price")
+    public Double getDeliveryPriceByBusinessId(Long businessId) {
+        return businessService.getDeliveryPriceByBusinessId(businessId);
+    }
+
     /**
      * 获取点餐分流ID和类型名称的映射
      *

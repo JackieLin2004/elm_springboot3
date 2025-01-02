@@ -79,4 +79,16 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
         }
         return Proxy.business2VO(business);
     }
+
+    @Override
+    public Double getDeliveryPriceByBusinessId(Long businessId) {
+        QueryWrapper<Business> wrapper = new QueryWrapper<>();
+        wrapper.eq("businessId", businessId);
+        Business business = baseMapper.selectOne(wrapper);
+        if (business != null) {
+            return business.getDeliveryPrice();
+        } else {
+            return 0.0;
+        }
+    }
 }

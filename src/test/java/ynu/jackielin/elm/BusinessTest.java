@@ -30,4 +30,9 @@ public class BusinessTest {
     void test4(){
         System.out.println(businessService.listBusinessByBusinessId(1L));
     }
+
+    @Test
+    void test5(){
+        System.out.println(businessService.getDeliveryPriceByBusinessId(2L));
+    }
 }
