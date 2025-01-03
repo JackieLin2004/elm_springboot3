@@ -20,4 +20,9 @@ public class OrderDetailedTest {
     void test2() {
         System.out.println(orderDetailedService.addInOrderDetailed(1L, 2L, 2L));
     }
+
+    @Test
+    void test3() {
+        System.out.println(orderDetailedService.getFoodInfoByOrderId(5L));
+    }
 }

@@ -34,4 +34,20 @@ public class FoodServiceImpl extends ServiceImpl<FoodMapper, Food> implements Fo
                 .map(Proxy::food2VO)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * 根据食物ID获取食物信息
+     * 此方法通过接收一个食物ID，从数据库中查询对应的食物信息
+     * 如果找到对应的食物信息，则将其转换为FoodVO对象并返回；
+     * 如果没有找到，则返回null
+     *
+     * @param foodId 食物ID，用于查询数据库中的食物记录
+     * @return FoodVO 如果找到对应的食物信息，则返回FoodVO对象；否则返回null
+     */
+    @Override
+    public FoodVO getFoodByFoodId(Long foodId) {
+        Food food = baseMapper.selectById(foodId);
+        if (food == null) return null;
+        else return Proxy.food2VO(food);
+    }
 }

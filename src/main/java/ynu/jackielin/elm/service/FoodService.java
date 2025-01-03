@@ -9,4 +9,6 @@ import java.util.List;
 public interface FoodService extends IService<Food> {
 
     List<FoodVO> listFoodByBusinessId(Long businessId);
+
+    FoodVO getFoodByFoodId(Long foodId);
 }

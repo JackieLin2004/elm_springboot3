@@ -1,5 +1,6 @@
 package ynu.jackielin.elm.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,9 @@ import ynu.jackielin.elm.service.CartService;
 import ynu.jackielin.elm.service.OrderDetailedService;
 import ynu.jackielin.elm.utils.Pair;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, OrderDetailed>
@@ -61,5 +64,25 @@ public class OrderDetailedServiceImpl extends ServiceImpl<OrderDetailedMapper, O
             if (deleteResult == 0) return false;
         }
         return true;
+    }
+
+    /**
+     * 根据订单ID获取食品信息
+     * 此方法通过接收一个订单ID来查询数据库中与该订单相关的所有食品详细信息，
+     * 并将这些信息整理成一个映射表，其中键是食品ID，值是该食品的购买数量
+     *
+     * @param orderId 订单ID，用于查询与该订单相关的食品详细信息
+     * @return 返回一个映射表，键为食品ID，值为该食品的购买数量
+     */
+    @Override
+    public Map<Long, Integer> getFoodInfoByOrderId(Long orderId) {
+        LambdaQueryWrapper<OrderDetailed> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(OrderDetailed::getOrderId, orderId);
+        List<OrderDetailed> orderDetailedList = this.list(queryWrapper);
+        return orderDetailedList.stream()
+                .collect(Collectors.toMap(
+                        OrderDetailed::getFoodId,
+                        OrderDetailed::getQuantity
+                ));
     }
 }

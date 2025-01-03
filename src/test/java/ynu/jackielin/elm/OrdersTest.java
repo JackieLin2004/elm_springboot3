@@ -18,4 +18,14 @@ public class OrdersTest {
     void test1() {
         System.out.println(ordersService.createOrders(ro));
     }
+
+    @Test
+    void test2() {
+        System.out.println(ordersService.getOrdersBusinessInfo(5L));
+    }
+
+    @Test
+    void test3() {
+        ordersService.getOrdersFoodInfo(5L).forEach(System.out::println);
+    }
 }

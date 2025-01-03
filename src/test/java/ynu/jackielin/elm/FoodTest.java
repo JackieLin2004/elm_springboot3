@@ -14,4 +14,9 @@ public class FoodTest {
     void test1(){
         foodService.listFoodByBusinessId(1L).forEach(System.out::println);
     }
+
+    @Test
+    void test2(){
+        System.out.println(foodService.getFoodByFoodId(10L));
+    }
 }
