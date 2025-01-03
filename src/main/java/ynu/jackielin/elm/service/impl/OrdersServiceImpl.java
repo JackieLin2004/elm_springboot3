@@ -1,16 +1,21 @@
 package ynu.jackielin.elm.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import ynu.jackielin.elm.dto.request.OrdersRO;
 import ynu.jackielin.elm.entity.po.Orders;
 import ynu.jackielin.elm.mapper.OrdersMapper;
+import ynu.jackielin.elm.service.OrderDetailedService;
 import ynu.jackielin.elm.service.OrdersService;
 
 import java.time.LocalDateTime;
 
 @Service
 public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> implements OrdersService {
+
+    @Resource
+    OrderDetailedService orderDetailedService;
 
     /**
      * 创建订单
@@ -30,7 +35,12 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
         order.setDaId(1L);
         order.setOrderDate(LocalDateTime.now().toString());
         int insertResult = baseMapper.insert(order);
-        if (insertResult > 0) return order.getOrderId();
-        else return null;
+        if (insertResult > 0) {
+            // 插入进行明细表
+            Long orderId = order.getOrderId();
+            if (orderDetailedService.addInOrderDetailed(ro.getUserId(), ro.getBusinessId(), orderId)) {
+                return orderId;
+            } else return null;
+        } else return null;
     }
 }

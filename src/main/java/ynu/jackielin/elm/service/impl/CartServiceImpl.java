@@ -1,5 +1,6 @@
 package ynu.jackielin.elm.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,9 +14,12 @@ import ynu.jackielin.elm.dto.response.CartVO;
 import ynu.jackielin.elm.entity.po.Cart;
 import ynu.jackielin.elm.mapper.CartMapper;
 import ynu.jackielin.elm.service.CartService;
+import ynu.jackielin.elm.utils.Pair;
 import ynu.jackielin.elm.utils.Proxy;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -114,5 +118,42 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     @Override
     public List<CartQuantityVO> getCartQuantity(Long userId) {
         return cartMapper.getCartQuantityByUserId(userId);
+    }
+
+    /**
+     * 根据用户ID和商家ID获取购物车映射
+     * 此方法的作用是查询指定用户在特定商家的购物车信息，并将查询结果以Map形式返回，
+     * 其中Map的键是购物车项ID，值是一个Pair对象，包含食物ID和数量
+     *
+     * @param userId 用户ID，用于筛选查询结果
+     * @param businessId 商家ID，用于筛选查询结果
+     * @return 返回一个Map，键为购物车项ID，值为一个Pair对象，包含食物ID和数量
+     */
+    @Override
+    public Map<Long, Pair<Long, Integer>> getCartMap(Long userId, Long businessId) {
+        LambdaQueryWrapper<Cart> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Cart::getUserId, userId)
+                .eq(Cart::getBusinessId, businessId);
+        List<Cart> cartList = this.list(queryWrapper);
+
+        // 将查询结果转换成 Map<Long, Pair<Long, Integer>>
+        Map<Long, Pair<Long, Integer>> resultMap = new HashMap<>();
+        for (Cart cart : cartList) {
+            resultMap.put(cart.getCartId(), new Pair<>(cart.getFoodId(), cart.getQuantity()));
+        }
+        return resultMap;
+    }
+
+    /**
+     * 根据购物车ID删除购物车记录
+     *
+     * @param cartId 购物车ID，用于定位要删除的购物车记录
+     * @return 返回删除操作的影响行数，如果返回1表示删除成功，否则可能表示删除失败或未找到对应的购物车记录
+     */
+    @Override
+    public Integer deleteByCartId(Long cartId) {
+        LambdaQueryWrapper<Cart> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Cart::getCartId, cartId);
+        return baseMapper.delete(queryWrapper);
     }
 }

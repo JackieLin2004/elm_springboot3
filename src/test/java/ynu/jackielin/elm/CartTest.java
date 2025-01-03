@@ -7,6 +7,9 @@ import ynu.jackielin.elm.dto.request.CartListRO;
 import ynu.jackielin.elm.dto.request.CartSaveRO;
 import ynu.jackielin.elm.dto.request.CartUpdateRO;
 import ynu.jackielin.elm.service.CartService;
+import ynu.jackielin.elm.utils.Pair;
+
+import java.util.Map;
 
 @SpringBootTest
 public class CartTest {
@@ -44,5 +47,20 @@ public class CartTest {
     @Test
     void test5() {
         System.out.println(cartService.getCartQuantity(1L));
+    }
+
+    @Test
+    void test6() {
+        Map<Long, Pair<Long, Integer>> cartMap = cartService.getCartMap(1L, 2L);
+        for (Map.Entry<Long, Pair<Long, Integer>> entry : cartMap.entrySet()) {
+            Long cartId = entry.getKey();
+            Pair<Long, Integer> pair = entry.getValue();
+            System.out.println("Cart ID: " + cartId + ", Food ID: " + pair.getFirst() + ", Quantity: " + pair.getSecond());
+        }
+    }
+
+    @Test
+    void test7() {
+        System.out.println(cartService.deleteByCartId(18L));
     }
 }

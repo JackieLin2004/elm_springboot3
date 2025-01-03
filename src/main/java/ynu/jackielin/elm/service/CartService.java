@@ -7,8 +7,10 @@ import ynu.jackielin.elm.dto.request.CartUpdateRO;
 import ynu.jackielin.elm.dto.response.CartQuantityVO;
 import ynu.jackielin.elm.dto.response.CartVO;
 import ynu.jackielin.elm.entity.po.Cart;
+import ynu.jackielin.elm.utils.Pair;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CartService extends IService<Cart> {
 
@@ -21,4 +23,8 @@ public interface CartService extends IService<Cart> {
     Integer removeCart(CartSaveRO ro);
 
     List<CartQuantityVO> getCartQuantity(Long userId);
+
+    Map<Long, Pair<Long, Integer>> getCartMap(Long userId, Long businessId);
+
+    Integer deleteByCartId(Long cartId);
 }
