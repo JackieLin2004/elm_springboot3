@@ -1,13 +1,11 @@
 package ynu.jackielin.elm.controller;
 
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ynu.jackielin.elm.dto.request.CartListRO;
 import ynu.jackielin.elm.dto.request.CartSaveRO;
 import ynu.jackielin.elm.dto.request.CartUpdateRO;
+import ynu.jackielin.elm.dto.response.CartQuantityVO;
 import ynu.jackielin.elm.dto.response.CartVO;
 import ynu.jackielin.elm.service.CartService;
 
@@ -38,5 +36,10 @@ public class CartController {
     @PostMapping("/remove-cart")
     public Integer removeCart(@RequestBody CartSaveRO ro) {
         return cartService.removeCart(ro);
+    }
+
+    @GetMapping("/get-cart-quantity")
+    public List<CartQuantityVO> getCartQuantity(Long userId) {
+        return cartService.getCartQuantity(userId);
     }
 }

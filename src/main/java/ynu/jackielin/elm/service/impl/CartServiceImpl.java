@@ -3,10 +3,12 @@ package ynu.jackielin.elm.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import ynu.jackielin.elm.dto.request.CartListRO;
 import ynu.jackielin.elm.dto.request.CartSaveRO;
 import ynu.jackielin.elm.dto.request.CartUpdateRO;
+import ynu.jackielin.elm.dto.response.CartQuantityVO;
 import ynu.jackielin.elm.dto.response.CartVO;
 import ynu.jackielin.elm.entity.po.Cart;
 import ynu.jackielin.elm.mapper.CartMapper;
@@ -18,6 +20,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements CartService {
+
+    @Resource
+    CartMapper cartMapper;
 
     /**
      * 根据用户ID和商家ID查询购物车列表
@@ -96,5 +101,18 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
                 .eq("businessId", ro.getBusinessId())
                 .eq("foodId", ro.getFoodId());
         return baseMapper.delete(queryWrapper);
+    }
+
+    /**
+     * 根据用户ID获取购物车商品数量信息
+     * 此方法通过调用cartMapper的getCartQuantityByUserId方法来获取用户购物车的商品数量信息
+     * 主要用于在用户界面展示购物车商品总数，以便用户了解购物车内的商品情况
+     *
+     * @param userId 用户ID，用于查询特定用户的购物车商品数量信息
+     * @return 返回一个CartQuantityVO对象列表，每个对象包含特定用户购物车的商品数量信息
+     */
+    @Override
+    public List<CartQuantityVO> getCartQuantity(Long userId) {
+        return cartMapper.getCartQuantityByUserId(userId);
     }
 }

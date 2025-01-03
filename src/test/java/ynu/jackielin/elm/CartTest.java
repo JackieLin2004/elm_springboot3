@@ -40,4 +40,9 @@ public class CartTest {
         CartSaveRO ro = new CartSaveRO(1L, 1L, 2L);
         System.out.println(cartService.removeCart(ro));
     }
+
+    @Test
+    void test5() {
+        System.out.println(cartService.getCartQuantity(1L));
+    }
 }

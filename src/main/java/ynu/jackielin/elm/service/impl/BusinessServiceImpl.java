@@ -80,6 +80,12 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
         return Proxy.business2VO(business);
     }
 
+    /**
+     * 根据商家ID获取配送价格
+     *
+     * @param businessId 商家ID，用于查询特定商家的配送价格
+     * @return 商家的配送价格如果找不到对应的商家，则返回0.0
+     */
     @Override
     public Double getDeliveryPriceByBusinessId(Long businessId) {
         QueryWrapper<Business> wrapper = new QueryWrapper<>();

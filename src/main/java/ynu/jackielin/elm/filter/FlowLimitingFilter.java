@@ -86,13 +86,12 @@ public class FlowLimitingFilter extends HttpFilter {
         if (Boolean.TRUE.equals(template.hasKey(Const.FLOW_LIMIT_COUNTER + ip))) {
             long increment = Optional.ofNullable(
                     template.opsForValue().increment(Const.FLOW_LIMIT_COUNTER + ip)).orElse(0L);
-            if (increment > 10) {
-                // 封禁30秒
-                template.opsForValue().set(Const.FLOW_LIMIT_BLOCK + ip, "", 30, TimeUnit.SECONDS);
+            if (increment > 20) {
+                template.opsForValue().set(Const.FLOW_LIMIT_BLOCK + ip, "", 10, TimeUnit.SECONDS);
                 return false;
             }
         } else {
-            template.opsForValue().set(Const.FLOW_LIMIT_COUNTER + ip, "1", 3, TimeUnit.SECONDS);
+            template.opsForValue().set(Const.FLOW_LIMIT_COUNTER + ip, "1", 10, TimeUnit.SECONDS);
         }
         return true;
     }
